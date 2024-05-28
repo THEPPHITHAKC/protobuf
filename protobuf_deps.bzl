@@ -33,11 +33,11 @@ def protobuf_deps():
     if not native.existing_rule("bazel_skylib"):
         http_archive(
             name = "bazel_skylib",
+            sha256 = "d00f1389ee20b60018e92644e0948e16e350a7707219e7a390fb0a99b6ec9262",
             urls = [
-                "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
-                "https://github.com/bazelbuild/bazel-skylib/releases/download/1.3.0/bazel-skylib-1.3.0.tar.gz",
+                "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/1.7.0/bazel-skylib-1.7.0.tar.gz",
+                "https://github.com/bazelbuild/bazel-skylib/releases/download/1.7.0/bazel-skylib-1.7.0.tar.gz",
             ],
-            sha256 = "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506",
         )
 
     if not native.existing_rule("com_google_absl"):
@@ -95,6 +95,14 @@ def protobuf_deps():
             urls = [
                 "https://github.com/bazelbuild/rules_proto/archive/refs/tags/5.3.0-21.7.tar.gz",
             ],
+        )
+
+    if not native.existing_rule("bazel_features"):
+        http_archive(
+            name = "bazel_features",
+            sha256 = "cec7fbc7bce6597cf2e83e01ddd9328a1bb057dc1a3092745238f49d3301ab5a",
+            strip_prefix = "bazel_features-1.12.0",
+            url = "https://github.com/bazel-contrib/bazel_features/releases/download/v1.12.0/bazel_features-v1.12.0.tar.gz",
         )
 
     if not native.existing_rule("rules_python"):
