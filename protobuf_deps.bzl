@@ -97,6 +97,14 @@ def protobuf_deps():
             ],
         )
 
+    if not native.existing_rule("bazel_features"):
+        http_archive(
+            name = "bazel_features",
+            sha256 = "cec7fbc7bce6597cf2e83e01ddd9328a1bb057dc1a3092745238f49d3301ab5a",
+            strip_prefix = "bazel_features-1.12.0",
+            url = "https://github.com/bazel-contrib/bazel_features/releases/download/v1.12.0/bazel_features-v1.12.0.tar.gz",
+        )
+
     if not native.existing_rule("rules_python"):
         http_archive(
             name = "rules_python",
