@@ -238,6 +238,13 @@ http_archive(
     url = "https://github.com/protocolbuffers/protobuf/releases/download/v25.0/protobuf-25.0.tar.gz",
 )
 
+# For testing runtime against old gencode from a previous major version.
+http_archive(
+    name = "com_google_protobuf_v22.0",
+    strip_prefix = "protobuf-22.0",
+    url = "https://github.com/protocolbuffers/protobuf/releases/download/v22.0/protobuf-22.0.tar.gz",
+)
+
 # Needed as a dependency of @com_google_protobuf_v25.x, which was before
 # utf8_range was merged in.
 http_archive(
