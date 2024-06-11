@@ -1913,6 +1913,17 @@ bool MessageDifferencer::MatchRepeatedFieldIndices(
 
   match_list1->assign(count1, -1);
   match_list2->assign(count2, -1);
+
+  // In the special case where both repeated fields have exactly one element,
+  // return without calling the comparator.  This optimization prevents the
+  // pathological case of deeply nested repeated fields of size 1 from taking
+  // exponential-time to compare.
+  if (key_comparator == nullptr && count1 == 1 && count2 == 1) {
+    match_list1->at(0) = 0;
+    match_list2->at(0) = 0;
+    return true;
+  }
+
   // Ensure that we don't report differences during the matching process. Since
   // field comparators could potentially use this message differencer object to
   // perform further comparisons, turn off reporting here and re-enable it
