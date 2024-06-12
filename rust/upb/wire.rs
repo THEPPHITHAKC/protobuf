@@ -1,4 +1,4 @@
-use crate::{upb_ExtensionRegistry, upb_MiniTable, Arena, OwnedArenaBox, RawArena, RawMessage};
+use crate::{upb_ExtensionRegistry, upb_MiniTable, Arena, RawArena, RawMessage};
 use std::ptr::NonNull;
 
 // LINT.IfChange(encode_status)
@@ -33,7 +33,7 @@ pub enum DecodeStatus {
 pub unsafe fn encode(
     msg: RawMessage,
     mini_table: *const upb_MiniTable,
-) -> Result<OwnedArenaBox<[u8]>, EncodeStatus> {
+) -> Result<Vec<u8>, EncodeStatus> {
     let arena = Arena::new();
     let mut buf: *mut u8 = std::ptr::null_mut();
     let mut len = 0usize;
@@ -46,8 +46,7 @@ pub unsafe fn encode(
     if status == EncodeStatus::Ok {
         assert!(!buf.is_null()); // EncodeStatus Ok should never return NULL data, even for len=0.
         // SAFETY: upb guarantees that `buf` is valid to read for `len`.
-        let slice = NonNull::new_unchecked(std::ptr::slice_from_raw_parts_mut(buf, len));
-        Ok(OwnedArenaBox::new(slice, arena))
+        Ok((*std::ptr::slice_from_raw_parts(buf, len)).to_vec())
     } else {
         Err(status)
     }
